@@ -35,6 +35,7 @@ public class TemperatureDataService {
 
     public TemperatureData fetchByCode(final String code) {
         final Optional<TemperatureData> temperatureData = temperatureDataRepository.findById(code);
+        System.out.println("nathan===" + temperatureData);
         return temperatureData.orElse(new TemperatureData());
     }
 

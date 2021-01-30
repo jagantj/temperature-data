@@ -82,6 +82,19 @@ public class TemperatureDataIT {
     }
 
     @Test
+    @DisplayName("Fetch data by code which is not present in the database")
+    void fetchByWrongCode() throws Exception {
+        final MockMultipartFile file = mockInputFile();
+        mockMvc.perform(MockMvcRequestBuilders.multipart(API_UPLOAD_DATA).file(file).characterEncoding("UTF-8"))
+            .andExpect(MockMvcResultMatchers.status().isOk()); //
+
+        this.mockMvc.perform(get("/api/temperature-data/{code}", "wrong code")).andDo(print())
+            .andExpect(status().isOk()) //
+            .andExpect(content().json(
+                "{\"source\":null,\"codeListCode\":null,\"code\":null,\"displayValue\":null,\"longDescription\":null,\"fromDate\":null,\"toDate\":null,\"sortingPriority\":null}"));
+    }
+
+    @Test
     @DisplayName("delete all data in the database")
     void deleteAll() throws Exception {
         final MockMultipartFile file = mockInputFile();

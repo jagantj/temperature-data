@@ -37,6 +37,7 @@ public class TemperatureDataController {
 
     @GetMapping(value = "/api/temperature-data/{code}", produces = APPLICATION_JSON_VALUE)
     ResponseEntity<TemperatureData> fetchByCode(@PathVariable final String code) {
+
         return ResponseEntity.ok(temperatureDataService.fetchByCode(code));
     }
 
