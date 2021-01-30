@@ -16,9 +16,9 @@ Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/
 ```shell
 mvn spring-boot:run
 
-## Running the tests
+## Running the Integration tests
 
 Integration Test - `com.gerimedica.temperature.data.integrationTest.TemperatureDataIT`
 
 ```shell
-mvn clean test
+mvn clean install -Pintegration-tests

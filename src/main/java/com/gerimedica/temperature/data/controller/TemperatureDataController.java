@@ -24,8 +24,9 @@ public class TemperatureDataController {
 
     private final TemperatureDataService temperatureDataService;
 
-    @PostMapping(value = "/api/upload-data", produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/api/upload-temperature-data", produces = APPLICATION_JSON_VALUE)
     ResponseEntity<List<TemperatureData>> uploadHealthData(@RequestParam("file") final MultipartFile file) {
+        temperatureDataService.save(file);
         return ResponseEntity.ok(temperatureDataService.save(file));
     }
 

@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,9 +28,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
+@Transactional
 public class TemperatureDataIT {
 
-    public static final String API_UPLOAD_DATA = "/api/upload-data";
+    public static final String API_UPLOAD_DATA = "/api/upload-temperature-data";
     public static final String TEXT_CSV = "text/csv";
     private MockMvc mockMvc;
     @Autowired
@@ -76,19 +79,6 @@ public class TemperatureDataIT {
 
         this.mockMvc.perform(get("/api/temperature-data/{code}", "698832009")).andDo(print()) //
             .andExpect(status().isOk());
-    }
-
-    @Test
-    @DisplayName("Fetch data by code which is not present in the database")
-    void fetchByWrongCode() throws Exception {
-        final MockMultipartFile file = mockInputFile();
-        mockMvc.perform(MockMvcRequestBuilders.multipart(API_UPLOAD_DATA).file(file).characterEncoding("UTF-8"))
-            .andExpect(MockMvcResultMatchers.status().isOk()) //
-            .andExpect(content().json("[]"));
-
-        this.mockMvc.perform(get("/api/temperature-data/{code}", "wrong code")).andDo(print())
-            .andExpect(status().isOk()) //
-            .andExpect(content().json("[]"));
     }
 
     @Test
